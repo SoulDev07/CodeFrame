@@ -5,12 +5,17 @@ const path = require('path');
 const { homedir } = require('os');
 const { readHtml, writeFile, getSettings } = require('./util');
 
+/**
+ * Retrieves the configuration settings for the CodeFrame extension.
+ * Combines editor settings and extension-specific settings.
+ * @returns {Object} Configuration object containing settings and metadata.
+ */
 const getConfig = () => {
   const editorSettings = getSettings('editor', ['fontLigatures', 'tabSize']);
   const editor = vscode.window.activeTextEditor;
   if (editor) editorSettings.tabSize = editor.options.tabSize;
 
-  const extensionSettings = getSettings('codesnap', [
+  const extensionSettings = getSettings('codeframe', [
     'backgroundColor',
     'boxShadow',
     'containerPadding',
@@ -24,8 +29,8 @@ const getConfig = () => {
     'shutterAction'
   ]);
 
-  const selection = editor && editor.selection;
-  const startLine = extensionSettings.realLineNumbers ? (selection ? selection.start.line : 0) : 0;
+  const selection = editor?.selection;
+  const startLine = extensionSettings.realLineNumbers ? (selection?.start.line ?? 0) : 0;
 
   let windowTitle = '';
   if (editor && extensionSettings.showWindowTitle) {
@@ -41,20 +46,27 @@ const getConfig = () => {
   };
 };
 
+/**
+ * Creates a webview panel for the CodeFrame extension.
+ * @param {vscode.ExtensionContext} context - The extension context.
+ * @returns {Promise<vscode.WebviewPanel>} The created webview panel.
+ */
 const createPanel = async (context) => {
   const panel = vscode.window.createWebviewPanel(
-    'codesnap',
-    'CodeSnap 📸',
+    'codeframe',
+    'CodeFrame 📸',
     { viewColumn: vscode.ViewColumn.Beside, preserveFocus: true },
     {
       enableScripts: true,
-      localResourceRoots: [vscode.Uri.file(context.extensionPath)]
+      localResourceRoots: [
+        vscode.Uri.file(path.join(context.extensionPath, 'webview')),
+        vscode.Uri.file(path.join(context.extensionPath, 'node_modules'))
+      ]
     }
   );
-  panel.webview.html = await readHtml(
-    path.resolve(context.extensionPath, 'webview/index.html'),
-    panel
-  );
+
+  const htmlPath = path.join(context.extensionPath, 'webview', 'index.html');
+  panel.webview.html = await readHtml(htmlPath, panel);
 
   return panel;
 };
@@ -66,11 +78,10 @@ const saveImage = async (data) => {
     defaultUri: lastUsedImageUri
   });
   lastUsedImageUri = uri;
-  uri && writeFile(uri.fsPath, Buffer.from(data, 'base64'));
+  if (uri) await writeFile(uri.fsPath, Buffer.from(data, 'base64'));
 };
 
-const hasOneSelection = (selections) =>
-  selections && selections.length === 1 && !selections[0].isEmpty;
+const hasOneSelection = (selections) => selections?.length === 1 && !selections[0].isEmpty;
 
 const runCommand = async (context) => {
   const panel = await createPanel(context);
@@ -87,7 +98,7 @@ const runCommand = async (context) => {
       flash();
       await saveImage(data);
     } else {
-      vscode.window.showErrorMessage(`CodeSnap 📸: Unknown shutterAction "${type}"`);
+      vscode.window.showErrorMessage(`CodeFrame 📸: Unknown shutterAction "${type}"`);
     }
   });
 
@@ -100,7 +111,8 @@ const runCommand = async (context) => {
   if (editor && hasOneSelection(editor.selections)) update();
 };
 
-module.exports.activate = (context) =>
+exports.activate = (context) => {
   context.subscriptions.push(
-    vscode.commands.registerCommand('codesnap.start', () => runCommand(context))
+    vscode.commands.registerCommand('codeframe.start', () => runCommand(context))
   );
+};

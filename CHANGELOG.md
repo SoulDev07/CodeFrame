@@ -1,20 +1,23 @@
-# Change Log
+# Changelog
 
-All notable changes to the "codesnap" extension will be documented in this file.
+All notable changes to the "codeframe" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [1.3.5]
+
+- Updated dependencies to the latest versions
+- Updated Readme
 
 ## [1.3.4]
 
-- Fix issue where extension didn't work with `editor.copyWithSyntaxHighlighting: false`
+- Fixed issue where the extension didn't work with `editor.copyWithSyntaxHighlighting: false`
 
 ## [1.3.3]
 
-- Fixed issue with copy to clipboard in windows
+- Fixed issue with copy to clipboard in Windows
 
 ## [1.3.2]
 
-- Fixed issue with inconsistent start up
+- Fixed issue with inconsistent startup
 
 ## [1.3.1]
 
@@ -23,12 +26,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [1.3.0]
 
 - Add `shutterAction` option
-- Fix issue with transparency on windows
-- Fix auto width of snap shots
+- Fixed issue with transparency on Windows
+- Fixed auto width of snapshots
 
 ## [1.0.26]
 
-- Update copy to clipboard permissions for OS X
+- Updated copy-to-clipboard permissions for OS X
 
 ## [1.0.20]
 
@@ -40,11 +43,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [1.0.18]
 
-- Added command in right click context menu
+- Added command in right-click context menu
 
 ## [1.0.14]
 
-- Added usage instructions to readme
+- Added usage instructions to README
 
 ## [1.0.13]
 
@@ -52,11 +55,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [1.0.9]
 
-- Fixed issues when using language specific settings
+- Fixed issues when using language-specific settings
 
 ## [1.0.8]
 
-- Fixed line number alignment on narrow screen
+- Fixed line number alignment on narrow screens
 
 ## [1.0.7]
 

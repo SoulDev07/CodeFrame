@@ -1,17 +1,17 @@
 {
-  "name": "codesnap",
-  "displayName": "CodeSnap",
-  "description": "📷 Take beautiful screenshots of your code",
-  "version": "1.3.4",
+  "name": "codeframe",
+  "displayName": "CodeFrame",
+  "description": "📷 Take beautiful screenshots of your code with CodeFrame!",
+  "version": "1.3.5",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kufii/CodeSnap"
+    "url": "https://github.com/SoulDev07/CodeFrame"
   },
-  "publisher": "adpyke",
+  "publisher": "SoulDev07",
   "icon": "icon.png",
   "license": "MIT",
   "engines": {
-    "vscode": "^1.52.0"
+    "vscode": "^1.100.0"
   },
   "keywords": [
     "screenshot",
@@ -19,90 +19,87 @@
     "snap",
     "clipboard",
     "share",
-    "polacode",
     "carbon",
+    "codeframe",
     "codesnap"
   ],
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:codesnap.start"
-  ],
   "main": "./src/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "codesnap.start",
-        "title": "CodeSnap 📸"
+        "command": "codeframe.start",
+        "title": "CodeFrame"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "codesnap.start"
+          "command": "codeframe.start"
         }
       ]
     },
     "configuration": {
       "type": "object",
-      "title": "CodeSnap",
+      "title": "CodeFrame",
       "properties": {
-        "codesnap.backgroundColor": {
+        "codeframe.backgroundColor": {
           "scope": "resource",
           "type": "string",
           "default": "#abb8c3",
           "description": "The background color of the snippet's container"
         },
-        "codesnap.boxShadow": {
+        "codeframe.boxShadow": {
           "scope": "resource",
           "type": "string",
           "default": "rgba(0, 0, 0, 0.55) 0px 20px 68px",
           "description": "The CSS box-shadow for the snippet"
         },
-        "codesnap.containerPadding": {
+        "codeframe.containerPadding": {
           "scope": "resource",
           "type": "string",
           "default": "3em",
           "description": "The padding for the snippet's container"
         },
-        "codesnap.roundedCorners": {
+        "codeframe.roundedCorners": {
           "scope": "resource",
           "type": "boolean",
           "default": true,
           "description": "Use rounded corners for the window"
         },
-        "codesnap.showWindowControls": {
+        "codeframe.showWindowControls": {
           "scope": "resource",
           "type": "boolean",
           "default": true,
           "description": "Display OS X style window controls"
         },
-        "codesnap.showWindowTitle": {
+        "codeframe.showWindowTitle": {
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Display window title with open folder / file name"
         },
-        "codesnap.showLineNumbers": {
+        "codeframe.showLineNumbers": {
           "scope": "resource",
           "type": "boolean",
           "default": true,
           "description": "Display line numbers"
         },
-        "codesnap.realLineNumbers": {
+        "codeframe.realLineNumbers": {
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Start from the selection's line number instead of 1"
         },
-        "codesnap.transparentBackground": {
+        "codeframe.transparentBackground": {
           "scope": "resource",
           "type": "boolean",
           "default": false,
           "description": "Use a transparent background when taking the screenshot"
         },
-        "codesnap.target": {
+        "codeframe.target": {
           "scope": "resource",
           "type": "string",
           "enum": [
@@ -112,7 +109,7 @@
           "default": "container",
           "description": "Take the shot with or without the container"
         },
-        "codesnap.shutterAction": {
+        "codeframe.shutterAction": {
           "scope": "resource",
           "type": "string",
           "enum": [
@@ -132,18 +129,13 @@
     "check": "npm run lint && npm run check:format"
   },
   "devDependencies": {
-    "eslint": "^7.24.0",
-    "eslint-config-adpyke-es6": "^1.4.13",
-    "eslint-config-prettier": "^8.2.0",
-    "prettier": "^2.2.1",
-    "@types/vscode": "^1.52.0",
-    "@types/glob": "^7.1.3",
-    "@types/mocha": "^8.2.2",
-    "@types/node": "^14.14.40",
-    "glob": "^7.1.6",
-    "mocha": "^8.3.2",
-    "typescript": "^4.2.4",
-    "vscode-test": "^1.5.2"
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.6.2",
+    "@types/vscode": "^1.103.0",
+    "@types/glob": "^9.0.0",
+    "@types/node": "^24.3.0",
+    "glob": "^11.0.3"
   },
   "dependencies": {
     "dom-to-image-even-more": "^1.0.4"

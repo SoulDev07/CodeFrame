@@ -1,5 +1,5 @@
 {
-  "extends": ["adpyke-es6", "prettier"],
+  "extends": ["prettier"],
   "env": {
     "browser": true,
     "node": false
@@ -8,7 +8,7 @@
     "sourceType": "module"
   },
   "globals": {
-    "acquireVsCodeApi": true,
-    "domtoimage": true
+    "acquireVsCodeApi": "writable",
+    "domtoimage": "writable"
   }
 }

@@ -2,6 +2,11 @@ import { $, $$, setVar, calcTextWidth } from './util.js';
 
 const snippetNode = $('#snippet');
 
+/**
+ * Sets up line numbers and formatting for the code snippet.
+ * @param {HTMLElement} node - The DOM node containing the code snippet.
+ * @param {Object} config - Configuration object for line numbers and formatting.
+ */
 const setupLines = (node, config) => {
   $$(':scope > br', node).forEach((row) => (row.outerHTML = '<div>&nbsp;</div>'));
 
@@ -34,6 +39,10 @@ const setupLines = (node, config) => {
   });
 };
 
+/**
+ * Removes the initial indentation from the code snippet.
+ * @param {HTMLElement} node - The DOM node containing the code snippet.
+ */
 const stripInitialIndent = (node) => {
   const regIndent = /^\s+/u;
   const initialSpans = $$(':scope > div > span:first-child', node);
@@ -64,3 +73,5 @@ export const pasteCode = (config, clipboard) => {
   stripInitialIndent(snippetNode);
   setupLines(snippetNode, config);
 };
+
+export { setupLines, stripInitialIndent };

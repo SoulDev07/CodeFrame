@@ -8,7 +8,11 @@ const flashFx = $('#flash-fx');
 
 const SNAP_SCALE = 2;
 
-export const cameraFlashAnimation = async () => {
+/**
+ * Triggers a camera flash animation effect.
+ * @returns {Promise<void>} Resolves when the animation is complete.
+ */
+const cameraFlashAnimation = async () => {
   flashFx.style.display = 'block';
   redraw(flashFx);
   flashFx.style.opacity = '0';
@@ -17,7 +21,11 @@ export const cameraFlashAnimation = async () => {
   flashFx.style.opacity = '1';
 };
 
-export const takeSnap = async (config) => {
+/**
+ * Captures a screenshot of the code snippet or window.
+ * @param {Object} config - Configuration object for the screenshot.
+ */
+const takeSnap = async (config) => {
   windowNode.style.resize = 'none';
   if (config.transparentBackground || config.target === 'window') {
     setVar('container-background-color', 'transparent');
@@ -51,3 +59,5 @@ export const takeSnap = async (config) => {
   windowNode.style.resize = 'horizontal';
   setVar('container-background-color', config.backgroundColor);
 };
+
+export { cameraFlashAnimation, takeSnap };

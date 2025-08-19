@@ -15,6 +15,11 @@ document.addEventListener('copy', () => takeSnap({ ...config, shutterAction: 'co
 
 document.addEventListener('paste', (e) => pasteCode(config, e.clipboardData));
 
+/**
+ * Handles incoming messages from the VS Code extension.
+ * Updates the UI or triggers animations based on the message type.
+ * @param {MessageEvent} event - The message event containing data from the extension.
+ */
 window.addEventListener('message', ({ data: { type, ...cfg } }) => {
   if (type === 'update') {
     config = cfg;
@@ -50,3 +55,5 @@ window.addEventListener('message', ({ data: { type, ...cfg } }) => {
     cameraFlashAnimation();
   }
 });
+
+export { config };
