@@ -13,6 +13,9 @@
   "engines": {
     "vscode": "^1.100.0"
   },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "keywords": [
     "screenshot",
     "snippet",
@@ -45,61 +48,17 @@
       "type": "object",
       "title": "CodeFrame",
       "properties": {
-        "codeframe.backgroundColor": {
+        "codeframe.action.shutterAction": {
           "scope": "resource",
           "type": "string",
-          "default": "#abb8c3",
-          "description": "The background color of the snippet's container"
+          "enum": [
+            "save",
+            "copy"
+          ],
+          "default": "save",
+          "description": "The behavior of the shutter button"
         },
-        "codeframe.boxShadow": {
-          "scope": "resource",
-          "type": "string",
-          "default": "rgba(0, 0, 0, 0.55) 0px 20px 68px",
-          "description": "The CSS box-shadow for the snippet"
-        },
-        "codeframe.containerPadding": {
-          "scope": "resource",
-          "type": "string",
-          "default": "3em",
-          "description": "The padding for the snippet's container"
-        },
-        "codeframe.roundedCorners": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": true,
-          "description": "Use rounded corners for the window"
-        },
-        "codeframe.showWindowControls": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": true,
-          "description": "Display OS X style window controls"
-        },
-        "codeframe.showWindowTitle": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": false,
-          "description": "Display window title with open folder / file name"
-        },
-        "codeframe.showLineNumbers": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": true,
-          "description": "Display line numbers"
-        },
-        "codeframe.realLineNumbers": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": false,
-          "description": "Start from the selection's line number instead of 1"
-        },
-        "codeframe.transparentBackground": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": false,
-          "description": "Use a transparent background when taking the screenshot"
-        },
-        "codeframe.target": {
+        "codeframe.action.target": {
           "scope": "resource",
           "type": "string",
           "enum": [
@@ -109,15 +68,71 @@
           "default": "container",
           "description": "Take the shot with or without the container"
         },
-        "codeframe.shutterAction": {
+        "codeframe.background.backgroundColor": {
           "scope": "resource",
           "type": "string",
-          "enum": [
-            "save",
-            "copy"
-          ],
-          "default": "save",
-          "description": "The behavior of the shutter button"
+          "default": "#abb8c3",
+          "description": "The background color of the snippet's container"
+        },
+        "codeframe.background.externalCssPath": {
+          "scope": "resource",
+          "type": "string",
+          "default": "",
+          "description": "Path to an external CSS file to apply to #snippet-container (used when useExternalCss is true)"
+        },
+        "codeframe.background.transparentBackground": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Use a transparent background when taking the screenshot"
+        },
+        "codeframe.background.useExternalCss": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "If true, use an external CSS file to style the snippet container instead of the background color setting"
+        },
+        "codeframe.code.realLineNumbers": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Start from the selection's line number instead of 1"
+        },
+        "codeframe.code.showLineNumbers": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": true,
+          "description": "Display line numbers"
+        },
+        "codeframe.container.boxShadow": {
+          "scope": "resource",
+          "type": "string",
+          "default": "rgba(0, 0, 0, 0.55) 0px 20px 68px",
+          "description": "The CSS box-shadow for the snippet"
+        },
+        "codeframe.container.containerPadding": {
+          "scope": "resource",
+          "type": "string",
+          "default": "3em",
+          "description": "The padding for the snippet's container"
+        },
+        "codeframe.container.roundedCorners": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": true,
+          "description": "Use rounded corners for the window"
+        },
+        "codeframe.container.showWindowControls": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": true,
+          "description": "Display MacOS style window controls"
+        },
+        "codeframe.container.showWindowTitle": {
+          "scope": "resource",
+          "type": "boolean",
+          "default": false,
+          "description": "Display window title with open folder / file name"
         }
       }
     }

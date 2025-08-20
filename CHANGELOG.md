@@ -4,8 +4,9 @@ All notable changes to the "codeframe" extension will be documented in this file
 
 ## [1.3.5]
 
+- Add support for external CSS via `codeframe.background.useExternalCss` and `codeframe.background.externalCssPath`
 - Updated dependencies to the latest versions
-- Updated Readme
+- Updated README
 
 ## [1.3.4]
 

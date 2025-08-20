@@ -2,6 +2,7 @@
 
 const vscode = require('vscode');
 const path = require('path');
+const { homedir } = require('os');
 const { readFile, writeFile } = require('fs').promises;
 
 /**
@@ -26,6 +27,44 @@ const readHtml = async (htmlPath, panel) => {
 };
 
 /**
+ * Read and resolve an external CSS file when enabled in config.
+ *
+ * @param {Object} cfg - Config with `useExternalCss` and `externalCssPath`.
+ * @returns {Promise<{externalCss:string|null, externalCssError:string|null, externalCssResolvedPath:string|null}>}
+ */
+const readExternalCss = async (cfg) => {
+  if (cfg.useExternalCss && cfg.externalCssPath) {
+    try {
+      const resolved = cfg.externalCssPath.startsWith('~')
+        ? path.resolve(homedir(), cfg.externalCssPath.slice(1))
+        : path.isAbsolute(cfg.externalCssPath)
+          ? cfg.externalCssPath
+          : path.resolve(
+              vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd(),
+              cfg.externalCssPath
+            );
+
+      const css = await readFile(resolved, 'utf8');
+
+      return {
+        externalCss: css,
+        externalCssError: null,
+        externalCssResolvedPath: resolved
+      };
+    } catch (e) {
+      const attempted = typeof resolved !== 'undefined' ? resolved : null;
+      return {
+        externalCss: null,
+        externalCssError: String(e),
+        externalCssResolvedPath: attempted
+      };
+    }
+  }
+
+  return { externalCss: null, externalCssError: null, externalCssResolvedPath: null };
+};
+
+/**
  * Retrieves settings from the VS Code configuration.
  * Supports language-specific overrides.
  * @param {string} group - The configuration group (e.g., 'editor').
@@ -46,4 +85,4 @@ const getSettings = (group, keys) => {
   }, {});
 };
 
-module.exports = { readHtml, getSettings, writeFile };
+module.exports = { readHtml, readExternalCss, getSettings, writeFile };

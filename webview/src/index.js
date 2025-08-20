@@ -5,9 +5,11 @@ import { takeSnap, cameraFlashAnimation } from './snap.js';
 const navbarNode = $('#navbar');
 const windowControlsNode = $('#window-controls');
 const windowTitleNode = $('#window-title');
+const snippetContainer = $('#snippet-container');
 const btnSave = $('#save');
 
 let config;
+let externalStyleNode = null;
 
 btnSave.addEventListener('click', () => takeSnap(config));
 
@@ -49,6 +51,21 @@ window.addEventListener('message', ({ data: { type, ...cfg } }) => {
     windowTitleNode.hidden = !showWindowTitle;
 
     windowTitleNode.textContent = windowTitle;
+
+    // handle external CSS (scoped to #snippet-container)
+    if (config.useExternalCss && config.externalCss) {
+      if (!externalStyleNode) {
+        externalStyleNode = document.createElement('style');
+        externalStyleNode.setAttribute('data-external-css', '');
+        snippetContainer.appendChild(externalStyleNode);
+      }
+      externalStyleNode.textContent = config.externalCss;
+    } else {
+      // fall back to background color silently
+      if (externalStyleNode && externalStyleNode.parentNode) externalStyleNode.remove();
+      externalStyleNode = null;
+      setVar('container-background-color', backgroundColor);
+    }
 
     document.execCommand('paste');
   } else if (type === 'flash') {

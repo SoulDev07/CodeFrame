@@ -1,33 +1,43 @@
 'use strict';
 
-const vscode = require('vscode');
+const fs = require('fs').promises;
 const path = require('path');
+const vscode = require('vscode');
 const { homedir } = require('os');
-const { readHtml, writeFile, getSettings } = require('./util');
+const { readHtml, readExternalCss, writeFile, getSettings } = require('./util');
 
 /**
  * Retrieves the configuration settings for the CodeFrame extension.
  * Combines editor settings and extension-specific settings.
  * @returns {Object} Configuration object containing settings and metadata.
  */
-const getConfig = () => {
+const getConfig = async (context) => {
   const editorSettings = getSettings('editor', ['fontLigatures', 'tabSize']);
   const editor = vscode.window.activeTextEditor;
   if (editor) editorSettings.tabSize = editor.options.tabSize;
 
-  const extensionSettings = getSettings('codeframe', [
-    'backgroundColor',
-    'boxShadow',
-    'containerPadding',
-    'roundedCorners',
-    'showWindowControls',
-    'showWindowTitle',
-    'showLineNumbers',
-    'realLineNumbers',
-    'transparentBackground',
-    'target',
-    'shutterAction'
+  let extensionSettings = getSettings('codeframe', [
+    'action.shutterAction',
+    'action.target',
+    'background.backgroundColor',
+    'background.externalCssPath',
+    'background.transparentBackground',
+    'background.useExternalCss',
+    'code.realLineNumbers',
+    'code.showLineNumbers',
+    'container.boxShadow',
+    'container.containerPadding',
+    'container.roundedCorners',
+    'container.showWindowControls',
+    'container.showWindowTitle'
   ]);
+
+  const updatedExtensionSettings = {};
+  for (const [key, value] of Object.entries(extensionSettings)) {
+    const newKey = key.substring(key.indexOf('.') + 1);
+    updatedExtensionSettings[newKey] = value;
+  }
+  extensionSettings = updatedExtensionSettings;
 
   const selection = editor?.selection;
   const startLine = extensionSettings.realLineNumbers ? (selection?.start.line ?? 0) : 0;
@@ -38,12 +48,15 @@ const getConfig = () => {
     windowTitle = `${vscode.workspace.name} - ${activeFileName}`;
   }
 
-  return {
+  const baseCfg = {
     ...editorSettings,
     ...extensionSettings,
     startLine,
     windowTitle
   };
+
+  const cssResult = await readExternalCss(baseCfg);
+  return { ...baseCfg, ...cssResult };
 };
 
 /**
@@ -88,7 +101,25 @@ const runCommand = async (context) => {
 
   const update = async () => {
     await vscode.commands.executeCommand('editor.action.clipboardCopyWithSyntaxHighlightingAction');
-    panel.webview.postMessage({ type: 'update', ...getConfig() });
+    const cfg = await getConfig(context);
+    panel.webview.postMessage({ type: 'update', ...cfg });
+
+    // notify user in VS Code about the CSS processing/read error
+    if (cfg.externalCssError) {
+      const openAction = 'Open CSS';
+      const msg = `CodeFrame: failed to load external CSS — ${cfg.externalCssError}`;
+      if (cfg.externalCssResolvedPath) {
+        vscode.window.showErrorMessage(msg, openAction).then((sel) => {
+          if (sel === openAction) {
+            vscode.workspace
+              .openTextDocument(cfg.externalCssResolvedPath)
+              .then((doc) => vscode.window.showTextDocument(doc));
+          }
+        });
+      } else {
+        vscode.window.showErrorMessage(msg);
+      }
+    }
   };
 
   const flash = () => panel.webview.postMessage({ type: 'flash' });
@@ -115,4 +146,11 @@ exports.activate = (context) => {
   context.subscriptions.push(
     vscode.commands.registerCommand('codeframe.start', () => runCommand(context))
   );
+
+  const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 200);
+  statusBarItem.text = '$(device-camera) CodeFrame';
+  statusBarItem.tooltip = 'Capture Code';
+  statusBarItem.command = 'codeframe.start';
+  statusBarItem.show();
+  context.subscriptions.push(statusBarItem);
 };
