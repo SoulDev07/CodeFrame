@@ -2,7 +2,7 @@
   "name": "codeframe",
   "displayName": "CodeFrame",
   "description": "📷 Take beautiful screenshots of your code with CodeFrame!",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/SoulDev07/CodeFrame"
@@ -11,7 +11,7 @@
   "icon": "icon.png",
   "license": "MIT",
   "engines": {
-    "vscode": "^1.100.0"
+    "vscode": "^1.103.0"
   },
   "activationEvents": [
     "onStartupFinished"
@@ -29,7 +29,7 @@
   "categories": [
     "Other"
   ],
-  "main": "./src/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -126,7 +126,7 @@
           "scope": "resource",
           "type": "boolean",
           "default": true,
-          "description": "Display MacOS style window controls"
+          "description": "Display macOS style window controls"
         },
         "codeframe.container.showWindowTitle": {
           "scope": "resource",
@@ -138,19 +138,22 @@
     }
   },
   "scripts": {
+    "compile": "node esbuild.js",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,md,json,css,prettierrc,eslintrc,html}\"",
     "check:format": "prettier --check \"**/*.{js,jsx,md,json,css,prettierrc,eslintrc,html}\"",
-    "check": "npm run lint && npm run check:format"
+    "check": "npm run lint && npm run check:format",
+    "package": "node esbuild.js --production"
   },
   "devDependencies": {
-    "eslint": "^9.33.0",
-    "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.6.2",
-    "@types/vscode": "^1.103.0",
     "@types/glob": "^9.0.0",
     "@types/node": "^24.3.0",
-    "glob": "^11.0.3"
+    "@types/vscode": "^1.103.0",
+    "esbuild": "^0.25.9",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "glob": "^11.0.3",
+    "prettier": "^3.6.2"
   },
   "dependencies": {
     "dom-to-image-even-more": "^1.0.4"

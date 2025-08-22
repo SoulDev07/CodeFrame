@@ -2,6 +2,11 @@
 
 All notable changes to the "codeframe" extension will be documented in this file.
 
+## [1.3.6]
+
+- Added LICENSE
+- Updated extension icon
+
 ## [1.3.5]
 
 - Add support for external CSS via `codeframe.background.useExternalCss` and `codeframe.background.externalCssPath`

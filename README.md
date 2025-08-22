@@ -8,7 +8,7 @@
 - **Clipboard Integration**: Copy screenshots directly to your clipboard for instant sharing.
 - **Customizable Appearance**: Adjust background color, padding, shadows, and more to match your style.
 - **Line Numbers**: Optionally include line numbers for better context.
-- **Window Controls**: Add OS X-style window buttons and titles for a polished look.
+- **Window Controls**: Add macOS style window buttons and titles for a polished look.
 - **Flexible Output**: Save screenshots to disk or copy them to the clipboard.
 - **External CSS Support**: Use a custom CSS file to style the snippet container (backgrounds, gradients, images and more).
 
@@ -64,7 +64,7 @@ Note: When `useExternalCss` is enabled, the external CSS takes precedence over `
 - `boxShadow` (string, default: `rgba(0, 0, 0, 0.55) 0px 20px 68px`) - The CSS `box-shadow` applied to the snippet container.
 - `containerPadding` (string, default: `3em`) - Padding around the snippet content. Examples: `16px`, `1em`, `3em`.
 - `roundedCorners` (boolean, default: `true`) - Use rounded corners for the window/container.
-- `showWindowControls` (boolean, default: `true`) - Display MacOS style window buttons (close, minimize, maximize).
+- `showWindowControls` (boolean, default: `true`) - Display macOS style window buttons (close, minimize, maximize).
 - `showWindowTitle` (boolean, default: `false`) - Show a window title with the open folder or file name.
 
 ### Code

@@ -66,4 +66,5 @@ web_modules/
 !.yarn/sdks
 !.yarn/versions
 
+dist/
 *.vsix
